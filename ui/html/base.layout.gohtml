@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/ui/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/index.css">
     <title> {{template "title" .}}</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
                   <li className="github"><a rel="noreferrer" href="https://github.com/rusisg" target="_blank">github</a></li>
             </ul>
         </nav>
-
+        
         <!-- CONTACTS BUTTONS -->
         <div className="contacts">
             <div className="clickable_btns">
@@ -48,6 +48,8 @@
 
     </header>
     {{template "main" .}}
+
+    <script src="/ui/static/js/index.js"></script>
 </body>
 </html>
 {{end}}
