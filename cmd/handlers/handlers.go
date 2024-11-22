@@ -13,8 +13,8 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	files := []string{
-		"./ui/html/base.layout.gohtml",
 		"./ui/html/home.page.gohtml",
+		"./ui/html/base.layout.gohtml",
 	}
 
 	ts, err := template.ParseFiles(files...)
