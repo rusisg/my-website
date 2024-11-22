@@ -3,14 +3,15 @@ package web
 import (
 	"log"
 	"net/http"
+	"personal-website-template/cmd/handlers"
 )
 
 const port = ":4000"
 
 func App() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", Home)
-	mux.HandleFunc("/blog", Blog)
+	mux.HandleFunc("/", handlers.Home)
+	mux.HandleFunc("/blog", handlers.Blog)
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
