@@ -1,9 +1,8 @@
 # Personal website(Rasul Nurlybekov)
 
-### Frontend
-* fixing the frontend
-1. fix contacts to the right site
-2. fix aboutmyself
+### Frontend [problems]
+1. recreate the design in Figma
+2. just run it by help of Claude
 3. and make it more responsive
 
 
@@ -11,8 +10,8 @@
 
 * to run write `make run` or `go run ./main.go`
 
-### Backend
-* ...
+### Backend [problems]
+* the backend is not refreshing the css, idk why? 
 
 #### IDEAS
 *  sender to the mail about new posts from blog
