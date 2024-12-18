@@ -11,7 +11,7 @@ const port = ":4000"
 func App() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handlers.Home)
-	mux.HandleFunc("/blog", handlers.Blog)
+	mux.HandleFunc("/note", handlers.Note)
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
