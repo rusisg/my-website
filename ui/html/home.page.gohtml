@@ -3,15 +3,28 @@
 {{define "title"}} Home page {{end}}
 
 {{define "main"}}
-    <div className="aboutmyself">
-        <main>
-            <h1>Nurlybekov Rasul <br /> 17 y.o</h1>
-            <p>Hello World!<br/>
-                My name is Rasul ,as you already knew.<br/>
-                I'm backend develop, writing on Golang(Go) <br/>
-                I'm trying to enter in IT area also with basic Frontend(html, css, js)<br/>
-                Frontend thing that I have started to get to know in the past.<br/>
-            </p>
-        </main>
-    </div>
+    <main>
+        <section class="hero">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/gojaass/"><img src="instagram.png" alt="Instagram"></a>
+                <a href="https://t.me/rusisg"><img src="telegram.png" alt="Telegram"></a>
+                <a href="www.linkedin.com/in/rassul-nurlybekov-67045133a"><img src="linkedin.png" alt="LinkedIn"></a>
+                <a href="https://wa.me/+77785220038"><img src="whatsapp.png" alt="WhatsApp"></a>
+            </div>
+            <div class="intro">
+                <h1>Hello I’m <span class="green">Rassul</span> <span class="blue">Developer</span></h1>
+                <img src="profile.jpg" alt="Profile Photo" class="profile-img">
+                <p class="tagline">“<span class="highlight">Building reliable solutions with code, curiosity, and a passion for security.</span>”</p>
+            </div>
+            <div class="tech-stack">
+                <h3>Tech Stack</h3>
+                <ul>
+                    <li>Golang, C++</li>
+                    <li>DevOps: Foundational knowledge in CI/CD, containerization, and infrastructure automation</li>
+                    <li>Focus Areas: Information Security, Infrastructure Engineering</li>
+                    <li>Skills: System Design, Problem-Solving, Analytical Thinking</li>
+                </ul>
+            </div>
+        </section>
+    </main>
 {{end}}
