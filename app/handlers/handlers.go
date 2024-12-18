@@ -32,14 +32,14 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	log.Println("home page")
 }
 
-func Blog(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/blog" {
+func Note(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/note" {
 		http.NotFound(w, r)
 		return
 	}
 
 	files := []string{
-		"./ui/html/blog.page.gohtml",
+		"./ui/html/note.page.gohtml",
 		"./ui/html/base.layout.gohtml",
 	}
 
@@ -55,5 +55,5 @@ func Blog(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", 500)
 	}
 
-	log.Println("blog page")
+	log.Println("note page")
 }
