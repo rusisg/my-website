@@ -7,7 +7,7 @@
 
 
 ![white theme](img/main%20page.png)
-![black theme](img/main%20page(black%20theme).png)
+![note page](img/note%20page.png)
 
 * to run write `make run` or `go run ./main.go`
 
