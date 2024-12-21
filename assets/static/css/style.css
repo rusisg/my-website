@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 /* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Open Sans", serif;
+  font-size: 18px;
 }
 
 body {
@@ -21,19 +24,35 @@ nav {
 }
 
 .nav-buttons button {
-  background-color: #000;
-  color: #fff;
+  background-color: #000000;
+  color: #FFFFFF;
   border: none;
-  padding: 0.5rem 1.5rem;
   margin: 0 10px;
-  border-radius: 20px;
   cursor: pointer;
-  font-size: 1rem;
+  align-items: flex-start;
+  font-size: 18px;
+  font-weight: bold;
   transition: all 0.3s ease;
+  border-radius: 100px;
+  padding: 22px 60px;
+  gap: 10px;
+  box-shadow: 0px 7px 7px 0px rgba(0, 0, 0, 0.25);
 }
 
 .nav-buttons button:hover {
-  background-color: #444;
+  opacity: 60%;
+}
+
+.intro h1 {
+  font-family: "Open Sans";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 140%; /* 67.2px */
+  background: linear-gradient(#24FF4C 5.72%, #00B7FF 68.53%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* From Uiverse.io by satyamchaudharydev */
@@ -69,6 +88,7 @@ nav {
   background-color: #f4f4f5;
   transition: .4s;
   border-radius: 30px;
+  box-shadow: 0px 7px 7px 0px rgba(0, 0, 0, 0.25);
 }
 
 .slider:before {
@@ -107,7 +127,10 @@ input:checked + .slider:before {
 
 .title {
   font-size: 1.8rem;
-  color: #00c851;
+  background: linear-gradient(#24FF4C 0%, #00B7FF 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
 }
 
