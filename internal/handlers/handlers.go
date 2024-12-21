@@ -13,8 +13,8 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	files := []string{
-		"./ui/html/home.page.gohtml",
-		"./ui/html/base.layout.gohtml",
+		"./assets/html/home.page.gohtml",
+		"./assets/html/base.layout.gohtml",
 	}
 
 	ts, err := template.ParseFiles(files...)
@@ -37,10 +37,9 @@ func Note(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-
 	files := []string{
-		"./ui/html/note.page.gohtml",
-		"./ui/html/base.layout.gohtml",
+		"./assets/html/note.page.gohtml",
+		"./assets/html/base.layout.gohtml",
 	}
 
 	ts, err := template.ParseFiles(files...)
