@@ -2,14 +2,15 @@
 
 ### Frontend [problems]
 1. ~~recreate the design in Figma~~
-2. just run it by help of Claude
+2. ~~just run it by help of GPT mostly~~
 3. and make it more responsive
 
 
 ![white theme](assets/img/main%20page.png)
-![note page](assets/img/note%20page.png)
+![note page](assets/img/main%20page(black%20theme).png)
 
-* to run write `make run` or `go run ./main.go`
+
+* to run write `go mod tidy` or `make run`
 
 ### Backend [problems]
 * the backend is not refreshing the css, idk why? 
