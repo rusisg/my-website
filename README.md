@@ -3,7 +3,7 @@
 ### Frontend [problems]
 1. ~~recreate the design in Figma~~
 2. ~~just run it by help of GPT mostly~~
-3. and make it more responsive
+3. and make it more responsive [almost need to add smartphone version/design]
 
 
 ![white theme](assets/img/main%20page.png)
