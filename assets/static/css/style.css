@@ -171,6 +171,8 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  text-align: center;
   gap: 70px;
 }
 
@@ -238,4 +240,65 @@ input:checked + .slider:before {
   font-size: 20px;
   font-weight: 700;
   padding: 10px 0;
+}
+
+@media (max-width: 1200px) {
+  body {
+    padding: 60px 20px 60px 20px;
+  }
+
+  nav ul {
+    gap: 20px;
+  }
+
+  .social-icons {
+    margin-top: 20px;
+  }
+
+  .note-content {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .intro {
+    padding: 20px;
+  }
+
+  .slider {
+    width: 100%;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav a {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro {
+    font-size: 14px;
+  }
+
+  .slider {
+    width: 100%;
+    height: auto;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav a {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
 }
