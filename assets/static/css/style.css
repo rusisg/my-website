@@ -9,7 +9,7 @@
 body {
   padding: 60px 245px 60px 245px;
   font-family: "Open Sans", sans-serif;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;  
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 body div {
@@ -30,8 +30,7 @@ body.dark {
 
 /* Dark Theme Button Styles */
 body.dark .nav-button {
-  background-color: #414141;
-  color: white;
+  color: black;
 }
 
 
@@ -46,20 +45,23 @@ nav ul {
 
 nav a {
   font-family: "Open Sans", sans-serif;
-  font-size: 18px;
+  font-size: 28px;
   font-weight: 700;
   height: 69px;
-  padding: 22px 70px;
   border-radius: 100px;
-  color: white;
-  background-color: black;
+  color: black;
   transition: 0.3s;
-  text-decoration: none;
+  text-decoration: underline 2px;
   box-shadow: 0px 6px 9px 0px rgba(102, 102, 102, 0.25);
 }
 
+.nav-button {
+  border: none;
+  box-shadow: none;
+}
+
 nav a:hover {
-  box-shadow: 0px 10px 6px 6px rgba(102, 102, 102, 0.25);
+  opacity: 50%;
 }
 
 /* Social icons fully filled inner */
@@ -207,6 +209,7 @@ input:checked + .slider:before {
 }
 
 .note-content h2 {
+  margin-top: 60px;
   font-family: "Open Sans", sans-serif;
   font-size: 32px;
   font-weight: 700;
@@ -247,8 +250,19 @@ input:checked + .slider:before {
     padding: 60px 20px 60px 20px;
   }
 
+  .wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
   nav ul {
+    margin: 0 100px;
     gap: 20px;
+  }
+
+  nav a {
+    font-size: 26px;
+    height: 69px;
   }
 
   .social-icons {
@@ -270,7 +284,6 @@ input:checked + .slider:before {
     font-size: 42px
   }
 
-
   .slider {
     width: 100%;
   }
@@ -281,16 +294,12 @@ input:checked + .slider:before {
     align-items: center;
   }
 
-  nav a {
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
 
-  nav ul li a {
-    font-size: 14px;
+  nav a {
+    font-size: 24px;
+    margin-bottom: 10px;
     font-weight: 700;
     height: 69px;
-    padding: 16px 50px;
   }
 
   .social-icons a svg {
@@ -309,32 +318,26 @@ input:checked + .slider:before {
   }
 
   /* Navigation Menu */
-  /* nav ul {
+  nav ul {
     display: flex;
     align-items: center;
     list-style: none;
     justify-content: space-between;
-  } */
+  }
 
   .nav-button {
+    padding: 0;
+    border: none;
+    box-shadow: none;
     font-family: "Open Sans", sans-serif;
     font-size: 24px;
     font-weight: 700;
-    height: 0px;
-    padding: 0px 0px;
     border-radius: 100px;
-    background-color: opacity;
     transition: 0.3s;
-    text-decoration: underline;
-  }
-
-  .nav-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
   }
 
   /* Dark Theme Button Styles */
   body.dark .nav-button {
-    color: black;
+    color: white;
   }
 }
