@@ -17,10 +17,10 @@ function applyTheme(isDarkMode) {
     // Update navigation button styles
     const navButtons = document.querySelectorAll('.nav-button');
     navButtons.forEach(button => {
-        button.style.backgroundColor = isDarkMode ? '#414141' : 'black';
-        button.style.color = 'white';
+        button.style.color = isDarkMode ? 'white' : 'black';
     });
 }
+
 
 // Load the saved theme preference on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,3 +36,5 @@ themeToggle.addEventListener('change', () => {
     applyTheme(isDarkMode); // Apply the theme
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light'); // Save preference
 });
+
+
