@@ -17,15 +17,13 @@ func main() {
 	flag.Parse()
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.Home)
-	mux.HandleFunc("/note", handlers.Note)
-	mux.HandleFunc("/note/admin", handlers.NoteAdmin)
+	handlers.RegisterRoutes(mux)
 
 	fileServer := http.FileServer(http.Dir("./assets/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
 
 	srv := &http.Server{
-		Addr:    ":4000",
+		Addr:    ":5000",
 		Handler: mux,
 	}
 
