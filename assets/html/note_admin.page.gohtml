@@ -1,0 +1,35 @@
+{{template "base" .}}
+
+{{define "main"}}
+    <!-- Content Section -->
+    <main>
+        <div class="form">
+            <div class="form_title">
+                <label for="text-title" class="formbuilder-text-label">
+                    <div>Title</div><span class="formbuilder-required"></span>
+                </label>
+                <input
+                        type="text"
+                        placeholder="Title"
+                        class="form-control"
+                        name="title"
+                        id="title"
+                        required="required"
+                        aria-required="true"
+                />
+            </div>
+            <div class="formbuilder-textarea form-group field-text-paragraph">
+                <label for="text-paragraph" class="formbuilder-textarea-label">
+                    <div>Link/Paragraph</div>
+                </label>
+                <textarea
+                        type="textarea"
+                        class="form-control"
+                        name="text-paragraph"
+                        id="text-paragraph"
+                ></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </div>
+    </main>
+{{end}}
