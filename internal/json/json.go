@@ -6,6 +6,7 @@ import (
 )
 
 type NoteStruct struct {
+	ID      int64  `json:"id"` // TODO
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
