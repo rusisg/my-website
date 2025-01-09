@@ -37,6 +37,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO: It must get datas and show it from database
+
 func Note(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/note" {
 		http.NotFound(w, r)
