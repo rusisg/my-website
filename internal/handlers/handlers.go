@@ -114,45 +114,65 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 }
 
 func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
+	// Handle POST request
+	if r.Method == http.MethodPost {
+		// Render the note creation form
 		files := []string{
-			"./assets/html/note_admin.page.gohtml",
+			"./assets/html/new_note.page.gohtml",
 			"./assets/html/base.layout.gohtml",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
+			log.Printf("Error parsing templates: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
+
+		// Execute the template
 		err = ts.Execute(w, nil)
 		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
+			log.Printf("Error executing template: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
 		}
-	} else if r.Method == http.MethodPost {
-		err := r.ParseForm()
+
+		// Parse the form data
+		err = r.ParseForm()
 		if err != nil {
 			http.Error(w, "Invalid form submission", http.StatusBadRequest)
 			return
 		}
 
 		// Retrieve data from the form
-		title := r.FormValue("title")            // ID of the title input
-		content := r.FormValue("text-paragraph") // ID of the textarea
+		title := r.FormValue("title")
+		content := r.FormValue("text-paragraph")
 
-		// Create a new note
-		newNote := json.NoteStruct{
-			Title:   title,
-			Content: content,
+		// Validate inputs
+		if title == "" || content == "" {
+			http.Error(w, "Title and content are required", http.StatusBadRequest)
+			return
 		}
 
 		// Read existing notes
 		notes, err := json.ReadNotes()
 		if err != nil {
 			log.Printf("Failed to read notes: %v", err)
-			http.Error(w, "Internal Server Error", 500)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
+		}
+
+		var newID int64
+		if len(notes) > 0 {
+			newID = notes[len(notes)-1].ID + 1 // Increment the last note's ID
+		} else {
+			newID = 1 // Start from 1 if there are no notes
+		}
+
+		// Create a new note
+		newNote := json.NoteStruct{
+			ID:      newID,
+			Title:   title,
+			Content: content,
 		}
 
 		// Append the new note and save to the JSON file
@@ -160,15 +180,18 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 		err = json.WriteNotes(notes)
 		if err != nil {
 			log.Printf("Failed to save note: %v", err)
-			http.Error(w, "Internal Server Error", 500)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
-		// Respond with success
-		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte("Note saved successfully"))
+		// Redirect to the form after successful operation
+		http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
+		return
 	}
 
+	// Handle unsupported HTTP methods (Method Not Allowed)
+	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	return
 }
 
 func RegisterRoutes(mux *http.ServeMux) {
@@ -177,5 +200,5 @@ func RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/note/admin", NoteAdmin)
 
 	// Wrap the /note/admin/new route with the Authenticate middleware
-	mux.Handle("/note/admin/new", middleware.Authenticate(http.HandlerFunc(NoteAdminNew)))
+	mux.Handle("/note/admin/new", middleware.LoggingMiddleware(http.HandlerFunc(NoteAdminNew)))
 }
