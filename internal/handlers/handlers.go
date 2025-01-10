@@ -33,7 +33,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", 500)
 	}
 
-	log.Println("home page")
+	log.Println(r.Method, " home page")
 }
 
 // TODO: It must get datas and show it from database
@@ -62,7 +62,7 @@ func Note(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", 500)
 	}
 
-	log.Println("note page")
+	log.Println(r.Method, " note page")
 }
 
 func NoteAdmin(w http.ResponseWriter, r *http.Request) {
@@ -111,11 +111,13 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		}
 	}
+	log.Println(r.Method, " note admin page")
 }
 
 func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 	// Handle POST request
 	if r.Method == http.MethodPost {
+		log.Println(r.Method, " note admin new note page")
 		// Render the note creation form
 		files := []string{
 			"./assets/html/new_note.page.gohtml",
