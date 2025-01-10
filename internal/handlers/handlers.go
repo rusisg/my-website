@@ -33,7 +33,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", 500)
 	}
 
-	log.Println(r.Method, " home page")
+	log.Println(r.Method, "home page")
 }
 
 func Note(w http.ResponseWriter, r *http.Request) {
@@ -73,7 +73,7 @@ func Note(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", 500)
 	}
 
-	log.Println(r.Method, " note page")
+	log.Println(r.Method, "note page")
 }
 
 func NoteAdmin(w http.ResponseWriter, r *http.Request) {
@@ -122,13 +122,12 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		}
 	}
-	log.Println(r.Method, " note admin page")
+	log.Println(r.Method, "note admin page")
 }
 
 func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 	// Handle POST request
 	if r.Method == http.MethodPost {
-		log.Println(r.Method, " note admin new note page")
 		// Render the note creation form
 		files := []string{
 			"./assets/html/new_note.page.gohtml",
@@ -198,6 +197,7 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
+		log.Println(r.Method, "note admin new note page")
 
 		// Redirect to the form after successful operation
 		http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
