@@ -22,8 +22,12 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./assets/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
 
+	// Static files: Images (including CV file)
+	imgFileServer := http.FileServer(http.Dir("./assets/img/"))
+	mux.Handle("/img/", http.StripPrefix("/img/", imgFileServer))
+
 	srv := &http.Server{
-		Addr:    ":5000",
+		Addr:    ":4000",
 		Handler: mux,
 	}
 
