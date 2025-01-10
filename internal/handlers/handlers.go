@@ -36,14 +36,18 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.Method, " home page")
 }
 
-// TODO: It must get datas and show it from database
-
 func Note(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/note" {
 		http.NotFound(w, r)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+
+	notes, err := json.ReadNotes()
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
 
 	files := []string{
 		"./assets/html/note.page.gohtml",
@@ -53,10 +57,17 @@ func Note(w http.ResponseWriter, r *http.Request) {
 	ts, err := template.ParseFiles(files...)
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
+		http.Error(w, "Parse: Internal Server Error", 500)
 		return
 	}
-	err = ts.Execute(w, nil)
+
+	data := struct {
+		Notes []json.NoteStruct
+	}{
+		Notes: notes,
+	}
+
+	err = ts.Execute(w, data)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", 500)
@@ -165,7 +176,7 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 
 		var newID int64
 		if len(notes) > 0 {
-			newID = notes[len(notes)-1].ID + 1 // Increment the last note's ID
+			newID = notes[0].ID + 1 // Increment based on the latest (first) note
 		} else {
 			newID = 1 // Start from 1 if there are no notes
 		}
@@ -178,7 +189,9 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Append the new note and save to the JSON file
-		notes = append(notes, newNote)
+		notes = append([]json.NoteStruct{newNote}, notes...)
+
+		// Save the notes to the JSON file
 		err = json.WriteNotes(notes)
 		if err != nil {
 			log.Printf("Failed to save note: %v", err)
