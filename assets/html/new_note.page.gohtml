@@ -3,18 +3,12 @@
 {{define "main"}}
     <!-- Content Section -->
     <main>
-        <form class="new-note-form" method="POST" action="/note/admin/new">
-            <div class="save-note-title">
-                <input type="text" id="title" name="title" autocomplete="off" class="input" required="">
-                <label class="user-label" for="title">Title</label>
-            </div>
-            <div class="save-note-pg">
-                <textarea id="text-paragraph" name="text-paragraph" autocomplete="off" class="input" required=""></textarea>
-                <label class="user-label" for="text-paragraph">Content</label>
-            </div>
-            <div class="save-note">
-                <button type="submit">Save Note</button>
-            </div>
+        <form method="POST" action="/note/admin/new" class="new-note-form">
+            <label for="title" class="user-label">Title</label>
+            <input type="text" id="title" name="title" autocomplete="off" class="input"><br>
+            <label for="text-paragraph" class="user-label">Content</label>
+            <textarea id="text-paragraph" name="text-paragraph" autocomplete="off" class="input"></textarea><br>
+            <button type="submit">Save Note</button>
         </form>
     </main>
 {{end}}
