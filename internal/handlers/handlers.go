@@ -85,16 +85,21 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
+			log.Println("Error parsing templates:", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 		err = ts.Execute(w, nil)
 		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
+			log.Println("Error executing template:", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
-	} else if r.Method == http.MethodPost {
+
+		log.Println(r.Method, "note admin page")
+		return
+	}
+
+	if r.Method == http.MethodPost {
 		// Process login form submission
 		err := r.ParseForm()
 		if err != nil {
@@ -105,29 +110,36 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("admin_username")
 		password := r.FormValue("admin_password")
 
+		// Load .env variables
 		err = godotenv.Load(".env")
 		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
+			log.Println("Error loading .env file:", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
+
 		envUser := os.Getenv("ADMIN_USER")
 		envPass := os.Getenv("ADMIN_PASS")
 
+		// Check credentials
 		if username == envUser && password == envPass {
 			// Credentials are valid, redirect to /note/admin/new
-			http.Redirect(w, r, "/note/admin/new", http.StatusFound)
+			http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
 		} else {
 			// Invalid credentials
 			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		}
+		log.Println(r.Method, "note admin page")
+		return
 	}
-	log.Println(r.Method, "note admin page")
+
+	// Handle unsupported HTTP methods
+	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 }
 
 func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 	// Handle POST request
-	if r.Method == http.MethodPost {
+	if r.Method == http.MethodGet {
 		// Render the note creation form
 		files := []string{
 			"./assets/html/new_note.page.gohtml",
@@ -147,9 +159,10 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
-
+		log.Println(r.Method, "note admin new page")
+	} else if r.Method == http.MethodPost {
 		// Parse the form data
-		err = r.ParseForm()
+		err := r.ParseForm()
 		if err != nil {
 			http.Error(w, "Invalid form submission", http.StatusBadRequest)
 			return
@@ -203,10 +216,9 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
 		return
 	}
-
-	// Handle unsupported HTTP methods (Method Not Allowed)
 	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	return
+	// Handle unsupported HTTP methods (Method Not Allowed)
 }
 
 func RegisterRoutes(mux *http.ServeMux) {
