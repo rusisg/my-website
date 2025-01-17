@@ -4,7 +4,7 @@
 (almost) Backend - Golang Mux\
 ✅Frontend - why would I complex it? HTMX html, css
 
-**to run write `go mod tidy` and then `make run`** 
+**to run write `go mod tidy` and then `make run`**
 
 <img src="assets/img/mainPage.png" alt="Main page in white theme" width="400" />
 <img src="assets/img/mainPage(blackTheme).png" alt="Main page in black theme" width="400"/>
