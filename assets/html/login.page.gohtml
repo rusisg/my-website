@@ -3,13 +3,13 @@
 {{define "main"}}
     <main>
         <h2 id="admin-h2">Admin Login</h2>
-        <form class="form" method="POST" action="/note/admin/new">
+        <form class="form" method="POST" action="/note/admin">
             <div class="login-username">
-                <input type="text" id="admin_username" name="admin_username" autocomplete="off" class="input" required="">
+                <input type="text" id="admin_username" name="admin_username" class="input" required>
                 <label class="user-label" for="admin_username">Username</label>
             </div>
             <div class="login-password">
-                <input type="password" id="admin_password" name="admin_password" autocomplete="off" class="input" required>
+                <input type="password" id="admin_password" name="admin_password" class="input" required>
                 <label class="user-label" for="admin_password">Password:</label>
             </div>
             <div class="login-button">
