@@ -1,4 +1,4 @@
-=# Personal website(Rasul Nurlybekov)-> PW
+# Personal website(Rasul Nurlybekov)-> PW
 
 ### Stack
 (almost) Backend - Golang Mux\
