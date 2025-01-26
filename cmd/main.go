@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"personal-website-template/internal/handlers"
-	"personal-website-template/internal/lib"
+	"personal-website-template/internal/lib/graceful_shutdown"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		Handler: mux,
 	}
 
-	err := lib.GracefulShutdown(srv)
+	err := graceful_shutdown.GracefulShutdown(srv)
 	if err != nil {
 		log.Fatalf("Failed to graceful shutdown: %s", err)
 	}
