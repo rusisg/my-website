@@ -8,8 +8,8 @@
 * fill .env
 * create directory /data in the root
 
-<img src="assets/img/mainPage.png" alt="Main page in white theme" width="400" />
-<img src="assets/img/mainPage(blackTheme).png" alt="Main page in black theme" width="1920"/>
+<img src="assets/img/mainPage.png" alt="Main page in white theme" width="600" />
+<img src="assets/img/mainPage(blackTheme).png" alt="Main page in black theme" width="600"/>
 
 ### Deploy and Host [TODOs]
 1. Clear the datas data/notes.json
