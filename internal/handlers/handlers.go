@@ -6,9 +6,17 @@ import (
 	"net/http"
 	"os"
 	"personal-website-template/internal/json"
-	"personal-website-template/internal/middleware"
+	"personal-website-template/internal/lib/token"
 	"text/template"
+	"time"
 )
+
+type Login struct {
+	SessionToken string
+	CSRFToken    string
+}
+
+var logged = map[string]Login{}
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -77,7 +85,22 @@ func Note(w http.ResponseWriter, r *http.Request) {
 }
 
 func NoteAdmin(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
+	// Check if the session token cookie exists
+	cookie, err := r.Cookie("token")
+	if err == nil {
+		// Validate the session token
+		for _, session := range logged {
+			if session.SessionToken == cookie.Value {
+				// If valid, redirect to the admin page
+				http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
+				log.Println("User already logged in. Redirecting to /note/admin/new")
+				return
+			}
+		}
+	}
+
+	switch r.Method {
+	case http.MethodGet:
 		// Render the login form
 		files := []string{
 			"./assets/html/login.page.gohtml",
@@ -94,12 +117,9 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 			log.Println("Error executing template:", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
-
-		log.Println(r.Method, "note admin page")
 		return
-	}
 
-	if r.Method == http.MethodPost {
+	case http.MethodPost:
 		// Process login form submission
 		err := r.ParseForm()
 		if err != nil {
@@ -121,20 +141,47 @@ func NoteAdmin(w http.ResponseWriter, r *http.Request) {
 		envUser := os.Getenv("ADMIN_USER")
 		envPass := os.Getenv("ADMIN_PASS")
 
-		// Check credentials
-		if username == envUser && password == envPass {
-			// Credentials are valid, redirect to /note/admin/new
-			http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
-		} else {
-			// Invalid credentials
+		// Validate credentials
+		if username != envUser || password != envPass {
 			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+			return
 		}
-		log.Println(r.Method, "note admin page")
-		return
-	}
 
-	// Handle unsupported HTTP methods
-	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		// Generate tokens
+		sessionToken := token.GenerateToken(32)
+		csrfToken := token.GenerateToken(32)
+
+		// Set cookies
+		http.SetCookie(w, &http.Cookie{
+			Name:     "token",
+			Value:    sessionToken,
+			Expires:  time.Now().Add(24 * time.Hour),
+			HttpOnly: true,
+			Secure:   true,
+		})
+
+		http.SetCookie(w, &http.Cookie{
+			Name:     "csrf_token",
+			Value:    csrfToken,
+			Expires:  time.Now().Add(24 * time.Hour),
+			HttpOnly: false, // Accessible to client-side
+			Secure:   true,
+		})
+
+		// Store session in memory
+		logged[username] = Login{
+			SessionToken: sessionToken,
+			CSRFToken:    csrfToken,
+		}
+
+		// Redirect to the admin page
+		http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
+		log.Println("User logged in:", username)
+		return
+
+	default:
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
 }
 
 func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
@@ -215,10 +262,30 @@ func NoteAdminNew(w http.ResponseWriter, r *http.Request) {
 		// Redirect to the form after successful operation
 		http.Redirect(w, r, "/note/admin/new", http.StatusSeeOther)
 		return
+	} else if r.Method != http.MethodGet && r.Method != http.MethodPost {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
 	}
-	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-	return
-	// Handle unsupported HTTP methods (Method Not Allowed)
+}
+
+func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("token")
+		if err != nil {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		// Check if the session token is valid
+		for _, session := range logged {
+			if session.SessionToken == cookie.Value {
+				next(w, r)
+				return
+			}
+		}
+
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+	}
 }
 
 func RegisterRoutes(mux *http.ServeMux) {
@@ -227,5 +294,5 @@ func RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/note/admin", NoteAdmin)
 
 	// Wrap the /note/admin/new route with the Authenticate middleware
-	mux.Handle("/note/admin/new", middleware.LoggingMiddleware(http.HandlerFunc(NoteAdminNew)))
+	mux.Handle("/note/admin/new", AuthMiddleware(NoteAdminNew))
 }
