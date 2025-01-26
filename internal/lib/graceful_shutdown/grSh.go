@@ -1,4 +1,4 @@
-package lib
+package graceful_shutdown
 
 import (
 	"context"
