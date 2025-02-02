@@ -1,4 +1,5 @@
-run:
-	go run cmd/main.go
 build:
-	go build -o main ./cmd
+	@go build -o bin/website cmd/main.go
+
+run: build
+	@./bin/website
